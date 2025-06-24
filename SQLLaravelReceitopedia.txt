@@ -1,0 +1,61 @@
+CREATE DATABASE IF NOT EXISTS receitopedia;
+USE receitopedia;
+
+-- Tabela de usuários
+CREATE TABLE `usuarios` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `senha` VARCHAR(255) NOT NULL,
+  `isAdmin` TINYINT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabela de receitas
+CREATE TABLE `receitas` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` INT(11) NOT NULL,
+  `likes` INT(11) NOT NULL DEFAULT 0,
+  `dislikes` INT(11) NOT NULL DEFAULT 0,
+  `categoria` VARCHAR(50) NOT NULL,
+  `titulo_receita` VARCHAR(255) NOT NULL,
+  `texto_receita` TEXT NOT NULL,
+  `foto_receita` MEDIUMTEXT DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_categoria` (`categoria`),
+  CONSTRAINT `fk_receita_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabela de comentários
+CREATE TABLE `comentarios` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` INT(11) NOT NULL,
+  `receita_id` INT(11) NOT NULL,
+  `texto_comentario` TEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_comentario_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_comentario_receita` FOREIGN KEY (`receita_id`) REFERENCES `receitas` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabela de likes (curtidas)
+CREATE TABLE `usuario_likes` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` INT(11) NOT NULL,
+  `receita_id` INT(11) NOT NULL,
+  `like` BOOLEAN NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_like` (`usuario_id`, `receita_id`),
+  CONSTRAINT `fk_like_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_like_receita` FOREIGN KEY (`receita_id`) REFERENCES `receitas` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabela de sessões (opcional, caso use sessão via banco)
+CREATE TABLE `sessions` (
+  `id` VARCHAR(255) NOT NULL PRIMARY KEY,
+  `user_id` INT(11) DEFAULT NULL,
+  `ip_address` VARCHAR(45) DEFAULT NULL,
+  `user_agent` TEXT DEFAULT NULL,
+  `payload` LONGTEXT NOT NULL,
+  `last_activity` INT(11) NOT NULL,
+  CONSTRAINT `fk_sessions_user` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -1,0 +1,34 @@
+.receitas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: white;
+    transition: box-shadow 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.card p {
+    color: #555;
+}
+
+.receita-info {
+    margin-top: 10px;
+}
+
+.receita-info a, .receita-info button {
+    margin-right: 8px;
+}
