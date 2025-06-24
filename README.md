@@ -33,4 +33,5 @@ Composer (Composer install)
 - php artisan cache:clear
 - php artisan optimize:clear
 - composer dump-autoload
+- php artisan storage:link
 - php artisan serve
