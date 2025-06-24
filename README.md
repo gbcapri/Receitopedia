@@ -1,5 +1,5 @@
 # Receitopedia
-Um site de receitas no laravel
+Um site de receitas no Laravel
 
 Instalação:
 Requisitos:
@@ -9,7 +9,7 @@ Composer (Composer install)
 # Etapa 1
 Download XAMPP (Windows, Linux, macOS)
 Download Composer (Windows, Linux, macOS)
-Colocar receitopedia-main dentro de /xampp/htdocs
+Colocar receitopedia dentro de /xampp/htdocs
 
 # Etapa 2
 Criar o banco de dados no PHPMyAdmin / CREATE DATABASE receitopedia;
